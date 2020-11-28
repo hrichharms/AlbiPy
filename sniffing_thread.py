@@ -1,8 +1,42 @@
 import socket
 import json
 import threading
+from datetime import datetime
+from dataclasses import dataclass
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
+
+@dataclass
+class datapoint:
+    """ Single market datapoint"""
+    Id: int
+    UnitPriceSilver: int
+    TotalPriceSilver: int
+    Amount: int
+    Tier: int
+    IsFinished: bool
+    AuctionType: str
+    HasBuyerFetched: bool
+    HasSellerFetched: bool
+    SellerCharacterId: str
+    SellerName: str
+    BuyerCharacterId: str
+    BuyerName: str
+    ItemTypeId: str
+    ItemGroupTypeId: str
+    EnchantmentLevel: int
+    QualityLevel: int
+    Expires: datetime
+    ReferenceId: str
+
+
+@dataclass
+class sniffer_data:
+    """ Parsed data returned by sniffing thread"""
+    n: int # total number of data points
+    e: int # number of malformed data points
+    parased: list[datapoint] # list of parsed data points
+    malformed: list[datapoint] # list of malformed data points
 
 class sniffing_thread(threading.Thread):
 
