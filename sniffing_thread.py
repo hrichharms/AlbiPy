@@ -6,7 +6,6 @@ PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
 class sniffing_thread(threading.Thread):
 
-    # override the initialization method
     def __init__(self):
         # initialize thread
         threading.Thread.__init__(self)
@@ -21,7 +20,6 @@ class sniffing_thread(threading.Thread):
         self.logs = [""]
 
 
-    # override the run method
     def run(self):
 
         # set recording to True
@@ -49,7 +47,7 @@ class sniffing_thread(threading.Thread):
                 # otherwise, this chunk is assumed to be a continuation of the last chunk and is simply concatenated to the end
                 elif self.logs:
                     self.logs[-1] += chunk
-        
+
         # remove placeholder log entry
         self.logs = self.logs[1:]
 
@@ -66,7 +64,6 @@ class sniffing_thread(threading.Thread):
                 self.E += 1
 
 
-    # parse current data
     def parse_current_data(self):
         # if no logs have been recorded
         if self.logs == [""]:
@@ -89,11 +86,9 @@ class sniffing_thread(threading.Thread):
         return (self.N, self.E, self.parsed, self.malformed)
 
 
-    # get recorded data method
     def get_recorded(self):
         return (self.N, self.E, self.parsed, self.malformed)
 
 
-    # stop recording method
     def stop(self):
         self.recording = False
