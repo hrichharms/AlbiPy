@@ -6,28 +6,29 @@ from dataclasses import dataclass
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
-@dataclass
+
 class datapoint:
     """ Single market datapoint"""
-    Id: int
-    UnitPriceSilver: int
-    TotalPriceSilver: int
-    Amount: int
-    Tier: int
-    IsFinished: bool
-    AuctionType: str
-    HasBuyerFetched: bool
-    HasSellerFetched: bool
-    SellerCharacterId: str
-    SellerName: str
-    BuyerCharacterId: str
-    BuyerName: str
-    ItemTypeId: str
-    ItemGroupTypeId: str
-    EnchantmentLevel: int
-    QualityLevel: int
-    Expires: datetime
-    ReferenceId: str
+    def __init__(self, data):
+        Id = data[0]
+        UnitPriceSilver = data[1]
+        TotalPriceSilver = data[2]
+        Amount = data[3]
+        Tier = data[4]
+        IsFinished = data[5]
+        AuctionType = data[6]
+        HasBuyerFetched = data[7]
+        HasSellerFetched = data[8]
+        SellerCharacterId = data[9]
+        SellerName = data[10]
+        BuyerCharacterId = data[11]
+        BuyerName = data[12]
+        ItemTypeId = data[13]
+        ItemGroupTypeId = data[14]
+        EnchantmentLevel = data[15]
+        QualityLevel = data[16]
+        Expires = data[17]
+        ReferenceId = data[18]
 
 
 @dataclass
@@ -36,7 +37,8 @@ class sniffer_data:
     n: int # total number of data points
     e: int # number of malformed data points
     parased: list[datapoint] # list of parsed data points
-    malformed: list[datapoint] # list of malformed data points
+    malformed: list[str] # list of malformed data points
+
 
 class sniffing_thread(threading.Thread):
 
@@ -110,18 +112,18 @@ class sniffing_thread(threading.Thread):
         self.parsed = []
         for i, log in enumerate(self.logs):
             try:
-                self.parsed.append(json.loads(log))
+                self.parsed.append(datapoint(list(json.loads(log).values())))
                 self.N += 1
             except:
                 self.malformed.append(self.logs.pop(i))
                 self.E += 1
         
         # return parsed data
-        return (self.N, self.E, self.parsed, self.malformed)
+        return sniffer_data(self.N, self.E, self.parsed, self.malformed)
 
 
     def get_recorded(self):
-        return (self.N, self.E, self.parsed, self.malformed)
+        return sniffer_data(self.N, self.E, self.parsed, self.malformed)
 
 
     def stop(self):
