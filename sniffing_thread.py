@@ -48,7 +48,7 @@ class sniffing_thread(threading.Thread):
     """ Sniffing thread class"""
 
     def __init__(self, problems=PROBLEMS):
-        # initialize thread
+
         threading.Thread.__init__(self)
 
         # set thread id
@@ -117,7 +117,8 @@ class sniffing_thread(threading.Thread):
                     self.E += 1
 
 
-    def parse_current_data(self):
+    def get_latest_data(self):
+        """ Get the latest data from sniffing thread"""
         # if no logs have been recorded
         if self.logs == [""]:
             return sniffer_data(0, 0, [], [])
@@ -140,9 +141,6 @@ class sniffing_thread(threading.Thread):
         return sniffer_data(self.N, self.E, self.parsed, self.malformed)
 
 
-    def get_recorded(self):
-        return sniffer_data(self.N, self.E, self.parsed, self.malformed)
-
-
     def stop(self):
+        """ Stop the sniffing thread"""
         self.recording = False
