@@ -5,7 +5,6 @@ from datetime import datetime
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
-
 class datapoint:
     """ Single market datapoint class"""
     def __init__(self, data):
@@ -47,12 +46,15 @@ class sniffer_data:
 
 class sniffing_thread(threading.Thread):
 
-    def __init__(self):
+    def __init__(self, problems=PROBLEMS):
         # initialize thread
         threading.Thread.__init__(self)
 
         # set thread id
         self.threadID = 1
+
+        # set problems list
+        self.problems = problems
 
         # define thread attributes
         self.recording = False
