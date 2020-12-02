@@ -2,8 +2,6 @@ import socket
 import json
 import threading
 from datetime import datetime
-from dataclasses import dataclass
-from typing import List
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
@@ -11,34 +9,40 @@ PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 class datapoint:
     """ Single market datapoint class"""
     def __init__(self, data):
-        Id = data[0]
-        UnitPriceSilver = data[1]
-        TotalPriceSilver = data[2]
-        Amount = data[3]
-        Tier = data[4]
-        IsFinished = data[5]
-        AuctionType = data[6]
-        HasBuyerFetched = data[7]
-        HasSellerFetched = data[8]
-        SellerCharacterId = data[9]
-        SellerName = data[10]
-        BuyerCharacterId = data[11]
-        BuyerName = data[12]
-        ItemTypeId = data[13]
-        ItemGroupTypeId = data[14]
-        EnchantmentLevel = data[15]
-        QualityLevel = data[16]
-        Expires = data[17]
-        ReferenceId = data[18]
+        self.Id = data[0]
+        self.UnitPriceSilver = data[1]
+        self.TotalPriceSilver = data[2]
+        self.Amount = data[3]
+        self.Tier = data[4]
+        self.IsFinished = data[5]
+        self.AuctionType = data[6]
+        self.HasBuyerFetched = data[7]
+        self.HasSellerFetched = data[8]
+        self.SellerCharacterId = data[9]
+        self.SellerName = data[10]
+        self.BuyerCharacterId = data[11]
+        self.BuyerName = data[12]
+        self.ItemTypeId = data[13]
+        self.ItemGroupTypeId = data[14]
+        self.EnchantmentLevel = data[15]
+        self.QualityLevel = data[16]
+        self.Expires = data[17]
+        self.ReferenceId = data[18]
 
 
-@dataclass
 class sniffer_data:
     """ Parsed data returned by sniffing thread"""
-    N: int # total number of data points
-    E: int # number of malformed data points
-    parased: List[datapoint] # list of parsed data points
-    malformed: List[str] # list of malformed data points
+    def __init__(self, N, E, parsed, malformed):
+        self.N = N
+        self.E = E
+        self.parsed = parsed
+        self.malformed = malformed
+
+    def __getitem__(self, i):
+        return self.parsed[i]
+
+    def __len__(self):
+        return len(self.parsed)
 
 
 class sniffing_thread(threading.Thread):
@@ -95,7 +99,7 @@ class sniffing_thread(threading.Thread):
         self.parsed = []
         for i, log in enumerate(self.logs):
             try:
-                self.parsed.append(datapoint(list(json.loads(log))))
+                self.parsed.append(datapoint(list(json.loads(log).values())))
             except:
                 self.malformed.append(self.logs.pop(i))
                 self.E += 1
@@ -105,7 +109,7 @@ class sniffing_thread(threading.Thread):
         # if no logs have been recorded
         if self.logs == [""]:
             return (0, 0, [], [])
-        
+
         # parse logs, record malformed logs, and count total logs and malformed logs
         self.E = 0
         self.N = 0
