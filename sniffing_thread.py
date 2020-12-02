@@ -6,7 +6,7 @@ from datetime import datetime
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
 class datapoint:
-    """ Single market datapoint class"""
+    """ Single market datapoint including all available data from the game's api"""
     def __init__(self, data):
         self.Id = data[0]
         self.UnitPriceSilver = data[1]
@@ -30,7 +30,7 @@ class datapoint:
 
 
 class sniffer_data:
-    """ Parsed data returned by sniffing thread"""
+    """ Organized sniffed market data"""
     def __init__(self, N, E, parsed, malformed):
         self.N = N
         self.E = E
@@ -45,6 +45,7 @@ class sniffer_data:
 
 
 class sniffing_thread(threading.Thread):
+    """ Sniffing thread class"""
 
     def __init__(self, problems=PROBLEMS):
         # initialize thread
@@ -57,7 +58,12 @@ class sniffing_thread(threading.Thread):
         self.problems = problems
 
         # define thread attributes
+        self.E = 0
+        self.N = 0
+        self.parsed = []
+        self.malformed = []
         self.recording = False
+        self.last_parsed = True
         self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)
         # log list with placeholder entry
         self.logs = [""]
@@ -90,40 +96,45 @@ class sniffing_thread(threading.Thread):
                 # otherwise, this chunk is assumed to be a continuation of the last chunk and is simply concatenated to the end
                 elif self.logs:
                     self.logs[-1] += chunk
+            
+            # set last parsed to false
+            self.last_parsed = False
 
-        # remove placeholder log entry
-        self.logs = self.logs[1:]
+        if self.last_parsed:
+            # remove placeholder log entry
+            self.logs = self.logs[1:]
 
-        # parse logs, record malformed logs, and count total logs and malformed logs
-        self.E = 0
-        self.N = len(self.logs)
-        self.malformed = []
-        self.parsed = []
-        for i, log in enumerate(self.logs):
-            try:
-                self.parsed.append(datapoint(list(json.loads(log).values())))
-            except:
-                self.malformed.append(self.logs.pop(i))
-                self.E += 1
+            # parse logs, record malformed logs, and count total logs and malformed logs
+            self.E = 0
+            self.N = len(self.logs)
+            self.parsed = []
+            self.malformed = []
+            for i, log in enumerate(self.logs):
+                try:
+                    self.parsed.append(datapoint(list(json.loads(log).values())))
+                except:
+                    self.malformed.append(self.logs.pop(i))
+                    self.E += 1
 
 
     def parse_current_data(self):
         # if no logs have been recorded
         if self.logs == [""]:
-            return (0, 0, [], [])
+            return sniffer_data(0, 0, [], [])
 
         # parse logs, record malformed logs, and count total logs and malformed logs
-        self.E = 0
-        self.N = 0
-        self.malformed = []
-        self.parsed = []
-        for i, log in enumerate(self.logs):
-            try:
-                self.parsed.append(datapoint(list(json.loads(log).values())))
-                self.N += 1
-            except:
-                self.malformed.append(self.logs.pop(i))
-                self.E += 1
+        if not last_parsed:
+            self.E = 0
+            self.N = 0
+            self.malformed = []
+            self.parsed = []
+            for i, log in enumerate(self.logs):
+                try:
+                    self.parsed.append(datapoint(list(json.loads(log).values())))
+                    self.N += 1
+                except:
+                    self.malformed.append(self.logs.pop(i))
+                    self.E += 1
         
         # return parsed data
         return sniffer_data(self.N, self.E, self.parsed, self.malformed)
