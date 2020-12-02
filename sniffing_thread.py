@@ -76,7 +76,7 @@ class sniffing_thread(threading.Thread):
 
             # remove known problematic strings from data
             data = str(data)
-            for p in PROBLEMS:
+            for p in self.problems:
                 data = data.replace(p, "")
 
             # partition received cleaned data into chunks
