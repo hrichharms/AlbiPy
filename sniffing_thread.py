@@ -3,12 +3,13 @@ import json
 import threading
 from datetime import datetime
 from dataclasses import dataclass
+from typing import List
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
 
 
 class datapoint:
-    """ Single market datapoint"""
+    """ Single market datapoint class"""
     def __init__(self, data):
         Id = data[0]
         UnitPriceSilver = data[1]
@@ -34,10 +35,10 @@ class datapoint:
 @dataclass
 class sniffer_data:
     """ Parsed data returned by sniffing thread"""
-    n: int # total number of data points
-    e: int # number of malformed data points
-    parased: list[datapoint] # list of parsed data points
-    malformed: list[str] # list of malformed data points
+    N: int # total number of data points
+    E: int # number of malformed data points
+    parased: List[datapoint] # list of parsed data points
+    malformed: List[str] # list of malformed data points
 
 
 class sniffing_thread(threading.Thread):
