@@ -95,7 +95,7 @@ class sniffing_thread(threading.Thread):
         self.parsed = []
         for i, log in enumerate(self.logs):
             try:
-                self.parsed.append(json.loads(log))
+                self.parsed.append(datapoint(list(json.loads(log))))
             except:
                 self.malformed.append(self.logs.pop(i))
                 self.E += 1
