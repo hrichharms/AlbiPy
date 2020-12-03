@@ -100,7 +100,7 @@ class sniffing_thread(threading.Thread):
             # set last parsed to false
             self.last_parsed = False
 
-        if self.last_parsed:
+        if not self.last_parsed:
             # remove placeholder log entry
             self.logs = self.logs[1:]
 
@@ -124,7 +124,7 @@ class sniffing_thread(threading.Thread):
             return sniffer_data(0, 0, [], [])
 
         # parse logs, record malformed logs, and count total logs and malformed logs
-        if not last_parsed:
+        if not self.last_parsed:
             self.E = 0
             self.N = 0
             self.malformed = []
