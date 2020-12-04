@@ -31,9 +31,8 @@ class datapoint:
 
 class sniffer_data:
     """ Organized sniffed market data"""
-    def __init__(self, n, e, parsed, malformed):
-        self.n = n
-        self.e = e
+    def __init__(self, logs, parsed, malformed):
+        self.logs = logs
         self.parsed = parsed
         self.malformed = malformed
 
@@ -101,44 +100,34 @@ class sniffing_thread(threading.Thread):
             self.last_parsed = False
 
         if not self.last_parsed:
-            # remove placeholder log entry
-            self.logs = self.logs[1:]
-
-            # parse logs, record malformed logs, and count total logs and malformed logs
-            self.e = 0
-            self.n = len(self.logs)
-            self.parsed = []
-            self.malformed = []
-            for i, log in enumerate(self.logs):
-                try:
-                    self.parsed.append(datapoint(list(json.loads(log).values())))
-                except:
-                    self.malformed.append(self.logs.pop(i))
-                    self.e += 1
+            self.parse_data()
 
 
-    def get_latest_data(self):
+    def parse_data(self):
+        self.n = 0
+        self.e = 0
+        self.parsed = []
+        self.malformed = []
+        for i, log in enumerate(self.logs):
+            try:
+                self.parsed.append(datapoint(list(json.loads(log).values())))
+            except json.decoder.JSONDecodeError:
+                self.malformed.append(self.logs[i])
+
+
+
+    def get_data(self):
         """ Get the latest data from sniffing thread"""
         # if no logs have been recorded
         if self.logs == [""]:
-            return sniffer_data(0, 0, [], [])
+            return sniffer_data([], [], [])
 
         # parse logs, record malformed logs, and count total logs and malformed logs
         if not self.last_parsed:
-            self.e = 0
-            self.n = 0
-            self.malformed = []
-            self.parsed = []
-            for i, log in enumerate(self.logs):
-                try:
-                    self.parsed.append(datapoint(list(json.loads(log).values())))
-                    self.n += 1
-                except:
-                    self.malformed.append(self.logs.pop(i))
-                    self.e += 1
+            self.parse_data()
         
         # return parsed data
-        return sniffer_data(self.n, self.e, self.parsed, self.malformed)
+        return sniffer_data(self.logs, self.parsed, self.malformed)
 
 
     def stop(self):
