@@ -15,9 +15,11 @@ class datapoint:
 
     def __init__(self, data):
         self.data = data
+        data[1] /= 10000
+        data[2] /= 10000
         self.Id = data[0]
-        self.UnitPriceSilver = data[1] / 10000
-        self.TotalPriceSilver = data[2] / 10000
+        self.UnitPriceSilver = data[1]
+        self.TotalPriceSilver = data[2]
         self.Amount = data[3]
         self.Tier = data[4]
         self.IsFinished = data[5]
@@ -51,7 +53,8 @@ class sniffer_data:
         return len(self.parsed)
 
     def __str__(self):
-        return json.dumps({"logs": self.logs, "parsed": self.parsed, "malformed": self.malformed})
+        parsed = [{HEADERS[j]: attribute for j, attribute in enumerate(i.data)} for i in self.parsed]
+        return json.dumps({"logs": self.logs, "parsed": parsed, "malformed": self.malformed})
 
 
 class sniffing_thread(threading.Thread):
