@@ -115,7 +115,6 @@ class sniffing_thread(threading.Thread):
                 self.malformed.append(self.logs[i])
 
 
-
     def get_data(self):
         """ Get the latest data from sniffing thread"""
         # if no logs have been recorded
