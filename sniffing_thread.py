@@ -14,9 +14,13 @@ class datapoint:
     """ Single market datapoint including all available data from the game's api"""
 
     def __init__(self, data):
-        self.data = data
+        self.data = data[:]
+        # correct silver prices
         data[1] /= 10000
         data[2] /= 10000
+        # convert expire date to datetime object
+        data[17] = datetime.strptime(data[17].split(".")[0], "%Y-%m-%dT%H:%M:%S")
+        # set attributes to data indexes
         self.Id = data[0]
         self.UnitPriceSilver = data[1]
         self.TotalPriceSilver = data[2]
@@ -123,7 +127,7 @@ class sniffing_thread(threading.Thread):
                 self.parsed.append(datapoint(list(json.loads(log).values())))
             except json.decoder.JSONDecodeError:
                 self.malformed.append(self.logs[i])
-        self.parsed = True
+        self.last_parsed = True
 
 
     def get_data(self):
