@@ -4,6 +4,10 @@ import threading
 from datetime import datetime
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
+HEADERS = ["Id", "UnitPriceSilver", "TotalPriceSilver", "Amount", "Tier", "IsFinished",
+           "AuctionType", "HasBuyerFetched", "HasSellerFetched", "SellerCharacterId",
+           "SellerName", "BuyerCharacterId", "BuyerName", "ItemTypeId", "ItemGroupTypeId",
+           "EnchantmentLevel", "QualityLevel", "Expires", "ReferenceId"]
 
 class datapoint:
     """ Single market datapoint including all available data from the game's api"""
