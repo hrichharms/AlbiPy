@@ -12,6 +12,7 @@ HEADERS = ["Id", "UnitPriceSilver", "TotalPriceSilver", "Amount", "Tier", "IsFin
 
 class datapoint:
     """ Single market datapoint including all available data from the game's api"""
+
     def __init__(self, data):
         self.data = data
         self.Id = data[0]
@@ -37,6 +38,7 @@ class datapoint:
 
 class sniffer_data:
     """ Organized sniffed market data"""
+
     def __init__(self, logs, parsed, malformed):
         self.logs = logs
         self.parsed = parsed
@@ -113,6 +115,7 @@ class sniffing_thread(threading.Thread):
 
 
     def parse_data(self):
+        """ Parse the data currently collected by the thread"""
         self.parsed = []
         self.malformed = []
         for i, log in enumerate(self.logs):
