@@ -47,6 +47,9 @@ class sniffer_data:
     def __len__(self):
         return len(self.parsed)
 
+    def __str__(self):
+        return json.dumps({"logs": self.logs, "parsed": self.parsed, "malformed": self.malformed})
+
 
 class sniffing_thread(threading.Thread):
     """ Sniffing thread class"""
@@ -109,8 +112,6 @@ class sniffing_thread(threading.Thread):
 
 
     def parse_data(self):
-        self.n = 0
-        self.e = 0
         self.parsed = []
         self.malformed = []
         for i, log in enumerate(self.logs):
