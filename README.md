@@ -37,3 +37,19 @@ orders = thread.get_data()
 for order in orders:
     print(order.UnitPriceSilver, order.EnchantmentLevel, order.QualityLevel)
 ```
+Alternatively, the collected data, including unparsed versions of the logs and malformed orders can be written to json very easily.
+```Python
+from AlbiPy import sniffing_thread
+from time import sleep
+
+thread = sniffing_thread()
+thread.start()
+
+sleep(10)
+
+thread.stop()
+orders = thread.get_data()
+output_file = open("output.json", "w")
+output_file.write(str(orders))
+output_file.close()
+```
