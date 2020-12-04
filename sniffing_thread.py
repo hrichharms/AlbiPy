@@ -12,6 +12,7 @@ HEADERS = ["Id", "UnitPriceSilver", "TotalPriceSilver", "Amount", "Tier", "IsFin
 class datapoint:
     """ Single market datapoint including all available data from the game's api"""
     def __init__(self, data):
+        self.data = data
         self.Id = data[0]
         self.UnitPriceSilver = data[1]
         self.TotalPriceSilver = data[2]
