@@ -31,9 +31,9 @@ class datapoint:
 
 class sniffer_data:
     """ Organized sniffed market data"""
-    def __init__(self, N, E, parsed, malformed):
-        self.N = N
-        self.E = E
+    def __init__(self, n, e, parsed, malformed):
+        self.n = n
+        self.e = e
         self.parsed = parsed
         self.malformed = malformed
 
@@ -58,8 +58,8 @@ class sniffing_thread(threading.Thread):
         self.problems = problems
 
         # define thread attributes
-        self.E = 0
-        self.N = 0
+        self.n = 0
+        self.e = 0
         self.parsed = []
         self.malformed = []
         self.recording = False
@@ -105,8 +105,8 @@ class sniffing_thread(threading.Thread):
             self.logs = self.logs[1:]
 
             # parse logs, record malformed logs, and count total logs and malformed logs
-            self.E = 0
-            self.N = len(self.logs)
+            self.e = 0
+            self.n = len(self.logs)
             self.parsed = []
             self.malformed = []
             for i, log in enumerate(self.logs):
@@ -114,7 +114,7 @@ class sniffing_thread(threading.Thread):
                     self.parsed.append(datapoint(list(json.loads(log).values())))
                 except:
                     self.malformed.append(self.logs.pop(i))
-                    self.E += 1
+                    self.e += 1
 
 
     def get_latest_data(self):
@@ -125,20 +125,20 @@ class sniffing_thread(threading.Thread):
 
         # parse logs, record malformed logs, and count total logs and malformed logs
         if not self.last_parsed:
-            self.E = 0
-            self.N = 0
+            self.e = 0
+            self.n = 0
             self.malformed = []
             self.parsed = []
             for i, log in enumerate(self.logs):
                 try:
                     self.parsed.append(datapoint(list(json.loads(log).values())))
-                    self.N += 1
+                    self.n += 1
                 except:
                     self.malformed.append(self.logs.pop(i))
-                    self.E += 1
+                    self.e += 1
         
         # return parsed data
-        return sniffer_data(self.N, self.E, self.parsed, self.malformed)
+        return sniffer_data(self.n, self.e, self.parsed, self.malformed)
 
 
     def stop(self):
