@@ -16,8 +16,8 @@ class datapoint:
     def __init__(self, data):
         self.data = data
         self.Id = data[0]
-        self.UnitPriceSilver = data[1]
-        self.TotalPriceSilver = data[2]
+        self.UnitPriceSilver = data[1] / 10000
+        self.TotalPriceSilver = data[2] / 10000
         self.Amount = data[3]
         self.Tier = data[4]
         self.IsFinished = data[5]
@@ -60,9 +60,6 @@ class sniffing_thread(threading.Thread):
     def __init__(self, problems=PROBLEMS):
 
         threading.Thread.__init__(self)
-
-        # set thread id
-        self.threadID = 1
 
         # set problems list
         self.problems = problems
