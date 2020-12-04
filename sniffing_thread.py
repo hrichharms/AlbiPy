@@ -123,6 +123,7 @@ class sniffing_thread(threading.Thread):
                 self.parsed.append(datapoint(list(json.loads(log).values())))
             except json.decoder.JSONDecodeError:
                 self.malformed.append(self.logs[i])
+        self.parsed = True
 
 
     def get_data(self):
