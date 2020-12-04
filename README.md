@@ -23,7 +23,7 @@ The methods used to fix problematic strings can sometimes cause problems with ac
 
 ## How do I install/use AlbiPy in my project?
 Simply download AlbiPy.py and import it as any other module. Below is an example of a script using AlbiPy that imports the module, records network traffic for ten seconds, then outputs the item prices, enchantment levels, and tiers, before exiting.
-```
+```Python
 from AlbiPy import sniffing_thread
 from time import sleep
 
