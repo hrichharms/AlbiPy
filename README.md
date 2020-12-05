@@ -17,7 +17,7 @@ The AlbiPy sniffing thread class allows quick and easy access to datapoint direc
 etc.
 
 ## What are the limits of AlbiPy?
-AlbiPy isn't perfect. Because the market data is sent to the client through the UDP protocol, some of the data is scrambled or hard to read. AlbiPy does make some attempts to correct errors that are easy to fix, however there are still packets that AlbiPy cannot parse. These packets, however, are almost never the first packets received by the client and as a result, the most important orders are almost universaly understood. Should any user wish to build there own parser, manually review malformed logs, or simply meditate on the imperfect nature of reality, however, the packets that AlbiPy is unable to parse are kept along with the raw logs themselves.
+Since the market data is sent to the client through the UDP protocol, some of the data is scrambled or hard to read. AlbiPy does make some attempts to correct errors that are easy to fix, however there are still packets that AlbiPy cannot parse. These packets, however, are almost never the first packets received by the client and as a result, the most important orders are almost universaly understood. Should any user wish to build their own parser, manually review malformed logs, or simply meditate on the imperfect nature of reality, however, the packets that AlbiPy is unable to parse are kept along with the raw logs themselves.
 
 The methods used to fix problematic strings can sometimes cause problems with accuracy of certain datapoints, however, and as a result, they are entirely optional and can be switched off should the possibly affected attributes be particularly important for whatever task is at hand.
 
