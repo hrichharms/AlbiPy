@@ -1,7 +1,7 @@
 ## What is AlbiPy?
 AlbiPy is a network sniffing tool that allows direct access to the Albion Online Client's market data through the Python programming language.
 
-**Note: For the time being, AlbiPy is only confirmed to work on Linux. It may not run properly on MAC OSX and Windows 10 definetely doesn't work at the moment.**
+**Note: For the time being, AlbiPy is only confirmed to work on Linux and Windows 10. It is not guaranteed to work on previous versions of Windows nor on Mac OS.**
 
 ## What can I access with AlbiPy?
 The AlbiPy sniffing thread class allows quick and easy access to datapoint directly from the Albion Online client's network traffic. AlbiPy listens on the Albion Online client's UDP socket in order to record and parse information as it is passed to the game client. AlbiPy gives direct access to the following data on every market order sent to the client:
