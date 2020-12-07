@@ -1,6 +1,5 @@
 from AlbiPy import sniffing_thread
 from AlbiPy import HEADERS
-from time import sleep
 
 # initialize and start sniffing thread
 print("Starting sniffing thread...\nHit ctrl-c to stop recording and save results!")
