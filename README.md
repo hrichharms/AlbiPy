@@ -24,7 +24,7 @@ Since the market data is sent to the client through the UDP protocol, some of th
 The methods used to fix problematic strings can sometimes cause problems with accuracy of certain datapoints. As a result, the fix methods are entirely optional and can be switched off should the possibly affected attributes be particularly important for whatever task is at hand.
 
 ## How do I install AlbiPy and use it in my project?
-Simply download AlbiPy.py and import it as any other module. **It is importatnt to note that AlbiPy will throw an error and will not work if it is run without administrator/root access.** Below is an example of a script using AlbiPy that imports the module, records network traffic for ten seconds, then outputs the item prices, enchantment levels, and tiers, before exiting.
+Simply download AlbiPy.py and import it as any other module. **It is importatnt to note that AlbiPy will throw an error and will not work if it is run without administrative privileges.** Below is an example of a script using AlbiPy that imports the module, records network traffic for ten seconds, then outputs the item prices, enchantment levels, and tiers, before exiting.
 ```Python
 from AlbiPy import sniffing_thread
 from time import sleep
@@ -57,4 +57,4 @@ output_file.close()
 ```
 Further examples may be found in the AlbiPy repository examples folder.
 
-**Note: The above code and AlbiPy in general can only capture market data that is received by the client while the thread is recording (between thread.start() and thread.stop())**
+**Note: The above code and AlbiPy in general can only capture market data that is received by the client while the thread is recording (between thread.start() and thread.stop()).**
