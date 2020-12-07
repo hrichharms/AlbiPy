@@ -25,8 +25,8 @@ The methods used to fix problematic strings can sometimes cause problems with ac
 
 ## How do I run the example scripts?
 If you are somebody who doesn't have much experience with coding or are unsure about how AlbiPy works, you may be interested in running some of the provided example scripts. Current examples include:
-- record_to_csv.py -> A program that records Albion Online market data until it is switched off, at which point it records that data to a csv file.
-- record_to_csv_live.py -> A program that, while recording Albion Online market data, writes that data to a given csv file every three seconds until it is switched off.
+- record_to_csv.py -> Records Albion Online market data until it is switched off, at which point it records that data to a csv file.
+- record_to_csv_live.py -> While recording Albion Online market data, writes that data to a given csv file every three seconds until it is switched off.
 
 In order to run these scripts, simply download them and put them in the same directory as AlbiPy.py then run the script with Python, which can be downloaded [here](https://www.python.org/downloads/).
 
