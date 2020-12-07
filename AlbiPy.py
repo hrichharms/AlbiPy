@@ -1,6 +1,7 @@
 import socket
 import json
 import threading
+import platform
 from datetime import datetime
 
 PROBLEMS = ["'", "$", "QH", "?8", "H@", "ZP"]
@@ -8,6 +9,15 @@ HEADERS = ["Id", "UnitPriceSilver", "TotalPriceSilver", "Amount", "Tier", "IsFin
            "AuctionType", "HasBuyerFetched", "HasSellerFetched", "SellerCharacterId",
            "SellerName", "BuyerCharacterId", "BuyerName", "ItemTypeId", "ItemGroupTypeId",
            "EnchantmentLevel", "QualityLevel", "Expires", "ReferenceId"]
+
+
+def local_ip():
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return ip
 
 
 class datapoint:
@@ -19,7 +29,7 @@ class datapoint:
         data[1] /= 10000
         data[2] /= 10000
         # convert expire date to datetime object
-        data[17] = datetime.strptime(data[17].split(".")[0], "%Y-%m-%dT%H:%M:%S")
+        data[17] = datetime.strptime(data[17][0:16], "%Y-%m-%dT%H:%M")
         # set attributes to data indexes
         self.Id = data[0]
         self.UnitPriceSilver = data[1]
@@ -78,9 +88,17 @@ class sniffing_thread(threading.Thread):
         self.malformed = []
         self.recording = False
         self.last_parsed = True
-        self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)
         # log list with placeholder entry
         self.logs = [""]
+
+        # initialize socket object
+        # self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)
+        self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW)
+
+        # if running on windows, bind the socket and set socket mode to receive all
+        if platform.system() == "Windows":
+            self.sniffer.bind((local_ip(), 0))
+            self.sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
 
 
     def run(self):
@@ -92,7 +110,10 @@ class sniffing_thread(threading.Thread):
         while self.recording:
 
             # wait for market data
-            data = self.sniffer.recvfrom(1250)[0]
+            try:
+                data = self.sniffer.recvfrom(1350)[0]
+            except OSError:
+                pass
 
             # remove known problematic strings from data
             data = str(data)
