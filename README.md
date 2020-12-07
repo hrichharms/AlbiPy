@@ -55,4 +55,6 @@ output_file = open("output.json", "w")
 output_file.write(str(orders))
 output_file.close()
 ```
+Further Examples may be found in the AlbiPy repository examples folder.
+
 **Note: The above code and AlbiPy in general can only capture market data that is received by the client while the thread is recording (between thread.start() and thread.stop())**
