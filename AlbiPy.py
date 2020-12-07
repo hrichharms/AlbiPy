@@ -26,8 +26,8 @@ class datapoint:
     def __init__(self, data):
         self.data = data[:]
         # correct silver prices
-        data[1] /= 10000
-        data[2] /= 10000
+        data[1] //= 10000
+        data[2] //= 10000
         # convert expire date to datetime object
         data[17] = datetime.strptime(data[17][0:16], "%Y-%m-%dT%H:%M")
         # set attributes to data indexes
