@@ -92,11 +92,12 @@ class sniffing_thread(threading.Thread):
         self.logs = [""]
 
         # initialize socket object
-        # self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)
-        self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW)
+        if platform.system() != "Windows":
+            self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)
 
-        # if running on windows, bind the socket and set socket mode to receive all
+        # socket setup for windows environment
         if platform.system() == "Windows":
+            self.sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW)
             self.sniffer.bind((local_ip(), 0))
             self.sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
 
