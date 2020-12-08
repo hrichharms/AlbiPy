@@ -57,9 +57,9 @@ class sniffer_data:
     """ Organized sniffed market data"""
 
     def __init__(self, logs, parsed, malformed):
-        self.logs = logs
-        self.parsed = parsed
-        self.malformed = malformed
+        self.logs = logs[:]
+        self.parsed = parsed[:]
+        self.malformed = malformed[:]
 
     def __getitem__(self, i):
         return self.parsed[i]
