@@ -44,7 +44,7 @@ sleep(10)
 thread.stop()
 orders = thread.get_data()
 for order in orders:
-    print(order.UnitPriceSilver, order.EnchantmentLevel, order.QualityLevel)
+    print(order.UnitPriceSilver, order.EnchantmentLevel, order.Tier)
 ```
 Alternatively, the collected data, including unparsed versions of the logs and malformed orders can be written to json simply by typecasting the sniffer data object to a string.
 ```Python
