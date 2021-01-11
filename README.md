@@ -64,3 +64,24 @@ output_file.close()
 ```
 
 **Note: The above code and AlbiPy in general can only capture market data that is received by the client while the thread is recording (between thread.start() and thread.stop()).**
+
+##List of datapoint attributes:
+- Id -> A unique id for the specific order
+- UnitPriceSilver -> The price buying or selling one item from the given market order
+- TotalPriceSilver -> The total amount of silver involved in the order
+- Amount -> The quantity of items being bought or sold in the order
+- Tier -> The tier of the item being bought or sold if applicable
+- IsFinished -> Seems more like a backend boolean for the developer's database but I'm not sure
+- AuctionType -> Whether this is a buy order or a sell order
+- HasBuyerFetched -> If the order is a buy order this is a boolean determining whether the buyer has fetched the order. This seems like a largely backend attribute
+- HasSellerFetched -> If the order is a sell order this is a boolean determining whether the seller has fetched the order. This again, seems like a largely backend attribute
+- SellerCharacterId -> If the order is a sell order, this is the unique id of the character that posted the sale
+- SellerName -> If the order is a sell order, this is the in game name of the character that posted the sale
+- BuyerCharacterId -> If the order is a buy order, this is the unique id of the character that posted the buy
+- BuyerName -> If the order is a buy order, this is the in game name of the character that posted the buy
+- ItemTypeId -> This is the item type identifier. Example: Adept's Longbow with 1 level of enchantment = T4_2H_LONGBOW@1
+- ItemGroupTypeId -> Same as ItemTypeId without the enchantment difference
+- EnchantmentLevel -> This is the enchantment level of the item being bought or sold if applicable
+- QualityLevel -> This is the quality of the item being bought or sold expressed as an integer if applicable
+- Expires -> The expiry date of the order
+- ReferenceId -> To be totally honest, I have no idea what this is. Probably something for the backend but I really don't know.
