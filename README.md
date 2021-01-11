@@ -65,7 +65,7 @@ output_file.close()
 
 **Note: The above code and AlbiPy in general can only capture market data that is received by the client while the thread is recording (between thread.start() and thread.stop()).**
 
-##List of datapoint attributes:
+## List of datapoint attributes:
 - Id -> A unique id for the specific order
 - UnitPriceSilver -> The price buying or selling one item from the given market order
 - TotalPriceSilver -> The total amount of silver involved in the order
