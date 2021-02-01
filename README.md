@@ -46,7 +46,7 @@ orders = thread.get_data()
 for order in orders:
     print(order.UnitPriceSilver, order.EnchantmentLevel, order.Tier)
 ```
-Alternatively, the collected data, including unparsed versions of the logs and malformed orders can be written to json simply by typecasting the sniffer data object to a string then writng it to file.
+Alternatively, the collected data, including unparsed versions of the logs and malformed orders can be written to json simply by typecasting the sniffer data object to a string then writing it to file.
 ```Python
 from AlbiPy import sniffing_thread
 from time import sleep
