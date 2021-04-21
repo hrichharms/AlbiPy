@@ -31,7 +31,7 @@ If you are somebody who doesn't have much experience with coding or are unsure a
 In order to run these scripts, simply download them and put them in the same directory as AlbiPy.py then run the script with Python, which can be downloaded [here](https://www.python.org/downloads/).
 
 ## How do I install AlbiPy and use it in my project?
-Simply download AlbiPy.py and import it as any other module. **It is importatnt to note that AlbiPy will throw an error and will not work if it is run without administrative privileges.** Below is an example of a script using AlbiPy that imports the module, records network traffic for ten seconds, then outputs the item prices, enchantment levels, and tiers, before exiting.
+Simply download AlbiPy.py and import it as any other module. **It is important to note that AlbiPy will throw an error and will not work if it is run without administrative privileges.** Below is an example of a script using AlbiPy that imports the module, records network traffic for ten seconds, then outputs the item prices, enchantment levels, and tiers, before exiting.
 ```Python
 from AlbiPy import sniffing_thread
 from time import sleep
