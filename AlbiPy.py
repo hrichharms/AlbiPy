@@ -144,6 +144,8 @@ class sniffing_thread(threading.Thread):
         """ Parse the data currently collected by the thread"""
         self.parsed = []
         self.malformed = []
+        if not self.logs[0]:
+            self.logs.pop(0)
         for i, log in enumerate(self.logs):
             try:
                 self.parsed.append(datapoint(list(json.loads(log).values())))
